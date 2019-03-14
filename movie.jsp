@@ -1,0 +1,290 @@
+<%@ page language="java" import="java.util.*,java.sql.*"
+	contentType="text/html; charset=utf-8"%>
+<%
+  String username = (String)session.getAttribute("user");
+	if(username == null){
+		username = "you can login or register first!";
+	}
+  String welcome = "Hello, " + username + " !";
+  String delete = request.getParameter("delete");
+  if(delete == null) delete = "";
+  if(delete.equals("ok")){
+    session.removeAttribute("user");
+  }
+%>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta content="text/html;charset=utf-8">
+    <title>InMovie</title>
+    <style>
+		a{text-decoration: none;color: white;}
+		a:hover{
+			color: rgb(219,188,71);
+		}
+    body{
+      background: url(images/bk1.png) repeat;
+    }
+    .clear {clear:both}
+    #header {
+        width: 998px;
+        height: 108px;
+
+        margin: 0px auto;
+        position: relative;
+        padding: 0px;
+    }
+    #nav {
+    width: 998px;
+    height: 45px;
+
+    font-size: 14px;
+    color: #FFF;
+
+    margin: 0 auto;
+    padding: 0px;
+
+    font-weight: bold;
+    line-height: 45px;
+    text-align: center;
+}
+    #icon {
+     top: 10px;
+     position: absolute;
+     left: 10px;
+    }
+    #user {
+     position: absolute;
+     right: 10px;
+     top: 20px;
+     color: white;
+     font-size: 20px;
+    }
+    #logout{
+      position: absolute;
+      right: 35px;
+      top: 60px;
+      color: white;
+      font-size: 15px;
+    }
+    #submitS {
+     vertical-align: middle;
+     width: 74px;
+     height: 25px;
+     background-color: white;
+     border: 0;
+     margin: 0px 0px 0px 5px;
+     cursor: pointer;
+     padding: 0px;
+    }
+    #nav .home {
+        padding: 8px 10px 5px 15px;
+        margin: 0px;
+        background: url(images/homeicon.png) center no-repeat;
+    }
+
+    #nav .sp {
+        padding: 10px 12px 10px 17px;
+    }
+		#nav .sp:hover {background-color: rgba(200,200,200,0.2); color:#005;}
+    .blockmain{
+      width: 998px;
+      height: 900px;
+      margin: 10px auto;
+      /*border: 1px solid white;*/
+    }
+    .col1{
+      width: 650px;
+      float: left;
+      margin-left: 20px;
+      /*border: 1px solid white;*/
+    }
+    .col2{
+      width: 320px;
+      margin-left: 670px;
+      padding-top: 2px;
+      /*border: 1px solid white;*/
+    }
+    .footer{
+      width: 998px;
+      margin:auto;
+      padding-top: 2px;
+      /*border: 1px solid white;*/
+    }
+    #write{
+      width: 640px;
+      height: 290px;
+      margin: 5px auto;
+      /*border: 1px solid white;*/
+    }
+    #w2{
+      width: 640px;
+      height: 290px;
+      /*border: 1px solid white;*/
+    }
+    #w3{
+      width: 640px;
+      /*border: 1px solid white;*/
+    }
+    #info{
+      width: 310px;
+      height: 140px;
+      margin: 20px auto;
+      padding-top: 2px;
+      /*border: 1px solid white;*/
+    }
+    #m0{
+        width: 310px;
+        margin: auto;
+        /*border: 1px solid white;*/
+    }
+    .gra1{
+      float: left;
+      height: 280px;
+      width: 300px;
+      /*border: 1px solid white;*/
+    }
+
+    /*动画*/
+    .slides {
+        width:800px;
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+    }
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .first{
+      z-index: 4;
+      animation: myfirst 6s linear 0s infinite;
+    }
+    .second{
+      z-index: 3;
+      animation: mysecond 6s linear 0s infinite;
+    }
+    .third{
+      z-index: 2;
+      animation: mythird 6s linear 0s infinite;
+    }
+    .fourth{
+      z-index: 1;
+      animation: myfourth 6s linear 0s infinite;
+    }
+    .first1{
+      z-index: 0;
+    }
+    #info:hover,.gra1:hover{
+      transform: scale(1.08);
+    }
+
+    @keyframes myfirst {
+      0%{transform: translateX(0);}
+      25%{transform: translateX(-1000px);}
+      100%{transform: translateX(-1000px);}
+    }
+    @keyframes mysecond {
+      0%{transform: translateX(0);}
+      25%{transform: translateX(0);}
+      50%{transform: translateX(-1000px);}
+      100%{transform: translateX(-1000px);}
+    }
+    @keyframes mythird {
+      0%{transform: translateX(0);}
+      25%{transform: translateX(0);}
+      50%{transform: translateX(0);}
+      75%{transform: translateX(-1000px);}
+      100%{transform: translateX(-1000px);}
+    }
+    @keyframes myfourth {
+      0%{transform: translateX(0);}
+      25%{transform: translateX(0);}
+      50%{transform: translateX(0);}
+      75%{transform: translateX(0);}
+      100%{transform: translateX(-1000px);}
+    }
+    </style>
+</head>
+<!--Header-->
+<div id="header">
+  <div id="icon">
+    <img src="images/icon.png">
+  </div>
+  <div id="user">
+    <p><%=welcome%></p>
+  </div>
+  <div id="logout">
+    <a href="<%=username.equals("you can login or register first!")?"register.jsp":"pro.jsp"%>?delete=ok">
+    <p><%=username.equals("you can login or register first!")?"Do not have Account?Go Registration!":"Log out"%></p></a>
+  </div>
+</div>
+<!--Guide-->
+<div id="nav">
+ <a href="pro.jsp"><span class="home"></span></a>
+ <a href="pro.jsp"><span class="sp" id="tag2">HOME</span></a>
+ <a href="music.jsp" target="_blank"><span class="sp" id="tag3">MUSIC</span></a>
+ <a href="comic.jsp"><span class="sp" id="tag4">COMIC</span></a>
+ <a href="Tech.jsp"><span class="sp" id="tag5">TECH</span></a>
+ <a href="movie.jsp"><span class="sp" id="tag6">MOVIE</span></a>
+ <a href="study.jsp"><span class="sp" id="tag7">STUDY</span></a>
+ <a href="health.jsp"><span class="sp" id="tag8">HEALTH</span></a>
+ <a href="blog.jsp"><span class="sp" id="tag9">BLOG</span></a>
+ <a href="login.jsp"><span class="sp" id="tag10">LOGIN</span></a>
+ <a href="register.jsp" target="_blank"><span class="sp" id="tag11">REGISTER</span></a>
+</div>
+
+<!--Block-->
+<!--Write,Myinfo,Myblog-->
+      <div class="blockmain">
+      <div class="col1">
+        <a href="http://www.so.com/link?url=http%3A%2F%2Fwww.360kan.com%2Fm%2FhKrmZUItR0j3SB.html&q=罗马假日&ts=1512820276&t=3ebc8284d7816e148322b6352d2a50a">
+          <div class="row1" id="write">
+          <div class="slides">
+                    <img class="first" src="images/mov0.jpg" height="280" width="600"/>
+                    <img class="second" src="images/mov1.jpg"height="280" width="600"/>
+                    <img class="third" src="images/mov2.jpg"height="280" width="600"/>
+                    <img class="fourth" src="images/mov3.jpg"height="280" width="600"/>
+                    <img class="first1" src="images/mov4.jpg"height="280" width="600"/>
+            </div>
+          </div></a>
+        <div class="row1" id="w2" style="background-size:640px 300px;background-repeat:no-repeat;">
+              <a href="http://www.chinadaily.com.cn/a/201712/08/WS5a29ed0fa3101a51ddf8dafd.html"><div class="gra1" style="float:left;background-image:url(images/mov5.jpg);background-size:300px 300px;
+                  background-repeat:no-repeat;"></div></a>
+              <a href="http://www.chinadaily.com.cn/a/201712/08/WS5a29ed0fa3101a51ddf8dafd.html"><div style="color:rgb(255,255,255);font-size:150%;text-align:center;font-family:华文新魏"><br>Animated film wins big for exploring life and death </div></a>
+              <div style="color:rgb(150,150,150);font-size:100%;text-align:center;font-family:华文新魏"><br>
+                It is a curious coincidence that an animated film becomes a dark horse in the Chinese film box office competition at the end of these recent two years
+                <!-- 第一条资讯 -->
+              </div>
+        </div>
+        <div class="row1" id="w3" style="color:white;">
+          <a href="http://comic.qq.com/a/20160617/050619.htm"><div class="gra1" style="float:left;background-image:url(images/mov.jpg);background-size:300px 300px;
+              background-repeat:no-repeat;"></div></a>
+          <a href="http://comic.qq.com/a/20160617/050619.htm"><div style="color:rgb(255,255,255);font-size:150%;text-align:center;font-family:华文新魏"><br>'Detective Chinatown 2' wraps up filming in New York</div></a>
+          <div style="color:rgb(150,150,150);font-size:100%;text-align:center;font-family:华文新魏"><br>
+              Detective Chinatown 2, the upcoming sequel of the titular franchise starring comedian Wang Baoqiang, recently concluded filming in New York.
+          </div>
+        </div>
+      </div>
+<!--Block Left-->
+
+      <div class="col2">
+        <div class="row2" id="m0"  style="color:rgb(255,255,255);font-size:150%;text-align:center;font-family:华文新魏">
+            <p></p>RELEVANT COMMENDATIONS</div>
+            <a href="http://movie.mtime.com/246582/posters_and_images/stills/hot.html"><div class="row1" id="info" style="background-image:url(images/mov11.jpg);background-size:310px 140px;
+                    background-repeat:no-repeat;"></div>
+            <a href="http://www.chinadaily.com.cn/a/201712/08/WS5a2a3acfa3101a51ddf8fa25.html"><div class="row1" id="info" style="background-image:url(images/mov6.jpg);background-size:310px 140px;
+                    background-repeat:no-repeat;"></div>
+            <a href="http://movie.mtime.com/229372/"><div class="row1" id="info" style="background-image:url(images/mov8.jpg);background-size:310px 140px;
+              background-repeat:no-repeat;"></div></a>
+            <a href="http://movie.mtime.com/236404/posters_and_images/stills/hot.html"><div class="row1" id="info" style="background-image:url(images/mov10.jpg);background-size:310px 140px;
+              background-repeat:no-repeat;"></div>
+            <a href="http://movie.mtime.com/221423/"><div class="row1" id="info" style="background-image:url(images/mov7.jpg);background-size:310px 140px;
+                background-repeat:no-repeat;"></div>
+      </div>
+    </div>
+    <div class="footer" id = "foot" style="color:rgb(255,255,255);text-align:center;">
+    <p>&copy; Design by ZW  XH .</p></div>
+  </div>
+<!--Write,Myinfo,Myblog end-->
